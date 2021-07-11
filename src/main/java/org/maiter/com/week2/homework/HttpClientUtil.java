@@ -1,5 +1,6 @@
 package org.maiter.com.week2.homework;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -23,7 +24,7 @@ public class HttpClientUtil {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
         // 创建Get请求
-        HttpGet httpGet = new HttpGet("http://localhost:8801");
+        HttpGet httpGet = new HttpGet("http://localhost:8888/test");
         // 响应模型
         CloseableHttpResponse response = null;
         try {
@@ -41,12 +42,18 @@ public class HttpClientUtil {
             // 将上面的配置信息 运用到这个Get请求里
             httpGet.setConfig(requestConfig);
 
+            httpGet.setHeader("netty","maiter");
             // 由客户端执行(发送)Get请求
             response = httpClient.execute(httpGet);
 
             // 从响应模型中获取响应实体
             HttpEntity responseEntity = response.getEntity();
             System.out.println("响应状态为:" + response.getStatusLine());
+            Header[] allHeaders = response.getAllHeaders();
+            System.out.println("响应头:");
+            for (Header header : allHeaders) {
+                System.out.println(header.getName() + ":" + header.getValue());
+            }
             if (responseEntity != null) {
                 System.out.println("响应内容长度为:" + responseEntity.getContentLength());
                 System.out.println("响应内容为:" + EntityUtils.toString(responseEntity));

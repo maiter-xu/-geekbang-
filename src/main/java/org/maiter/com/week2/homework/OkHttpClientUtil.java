@@ -15,7 +15,7 @@ public class OkHttpClientUtil {
     public static void get() {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://localhost:8801")
+                .url("http://localhost:8888")
                 .build();
         try (Response response = client.newCall(request).execute()) {
             System.out.println(response.body().string());
